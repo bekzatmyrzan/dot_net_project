@@ -1,0 +1,92 @@
+﻿@model CourseProject.Models.SchoolKidListViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<form method="get" action="/SchoolKids/Create/">
+    <button type="submit" class="form-control btn-success rounded-pill col-sm-1">Create New</button>
+</form>
+
+
+<form method="get" action="/SchoolKids/ListView/">
+    <div class="form-inline">
+        <label class="control-label">Школа: </label>
+        @Html.DropDownList("School", Model.Schools as SelectList,
+                    htmlAttributes: new { @class = "form-control" })
+
+        <label class="control-label">Группа: </label>
+        @Html.DropDownList("Group", Model.Groups as SelectList,
+                htmlAttributes: new { @class = "form-control" })
+
+        <input type="submit" value="Фильтр" class="btn btn-default" />
+    </div>
+</form>
+<br>
+<table class="table">
+    <tr>
+        <th>
+            <label>Login</label>
+        </th>
+        <th>
+            <label>Password</label>
+        </th>
+        <th>
+            <label>Name</label>
+        </th>
+        <th>
+            <label>Surname</label>
+        </th>
+        <th>
+            <label>Father:</label>
+        </th>
+        <th>
+            <label>Mother</label>
+        </th>
+        <th>
+            <label>Group</label>
+        </th>
+        <th>
+            <label>School</label>
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.SchoolKids)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Login)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Password)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Surname)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Father.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Mother.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Group.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.School.Name)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+    </td>
+</tr>
+    }
+
+</table>

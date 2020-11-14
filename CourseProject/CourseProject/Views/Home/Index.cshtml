@@ -1,0 +1,24 @@
+﻿@model IEnumerable<CourseProject.Models.School>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <h3>Kundelik.kz</h3>
+    <table>
+        <tr>
+            <td><p>School Name</p></td>
+            <td><p>School Address</p></td>
+        </tr>
+        @foreach (CourseProject.Models.School b in Model)
+        {
+            <tr>
+                <td><p>@b.Name</p></td>
+            </tr>
+        }
+    </table>
+</div>
+@section Footer {
+    Все права защищены. Syte Corp. 2012.
+}

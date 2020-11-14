@@ -1,0 +1,83 @@
+﻿@model CourseProject.Models.SchoolKid
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SchoolKid</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Father.Login)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Father.Login)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Group.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Group.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mother.Login)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mother.Login)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.School.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.School.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Login)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Login)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
