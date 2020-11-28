@@ -6,6 +6,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace CourseProject.Controllers
 {
@@ -34,6 +36,150 @@ namespace CourseProject.Controllers
             // возвращаем представление
             return View(db.Schools);
         }
+
+        public ActionResult ShowGrades(int? subjectId, int? schoolKidId)
+        {
+            IQueryable<SchoolKid> schoolKids = db.SchoolKids.Include(s => s.Group);
+            IQueryable<Subject> subjects = db.Subjects.Include(s => s.Group);
+
+            Subject subject = subjects.First(s => s.Id == subjectId);
+            SchoolKid schoolKid = schoolKids.First(s => s.Id == schoolKidId);
+
+
+            IQueryable<Grade> grades = db.Grades.Include(g => g.SchoolKid).Include(g => g.Subject);
+            grades = grades.Where(g => g.SchoolKidId == schoolKidId);
+            grades = grades.Where(g => g.SubjectId == subjectId);
+
+            ViewBag.subject = subject;
+            ViewBag.schoolKid = schoolKid;
+
+            return View(grades);
+
+        }
+
+        public ActionResult PutGrade(int? subjectId, int? schoolKidId)
+        {
+            ViewBag.SchoolKidId = new SelectList(db.SchoolKids, "Id", "Name");
+            ViewBag.SubjectId = new SelectList(db.Subjects, "Id", "Name");
+
+            IQueryable<SchoolKid> schoolKids = db.SchoolKids.Include(s => s.Group);
+            IQueryable<Subject> subjects = db.Subjects.Include(s => s.Group);
+
+            Subject subject = subjects.First(s => s.Id == subjectId);
+            SchoolKid schoolKid = schoolKids.First(s => s.Id == schoolKidId);
+
+            ViewBag.subject = subject;
+            ViewBag.schoolKid = schoolKid;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> PutGrade([Bind(Include = "Id,Value,SchoolKidId,SubjectId,Date")] Grade grade)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Grades.Add(grade);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.SchoolKidId = new SelectList(db.SchoolKids, "Id", "Name", grade.SchoolKidId);
+            ViewBag.SubjectId = new SelectList(db.Subjects, "Id", "Name", grade.SubjectId);
+            return View(grade);
+        }
+        
+        public async Task<ActionResult> SubjectDetails(int? subjectId)
+        {
+            if (subjectId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            IQueryable<SchoolKid> schoolKids = db.SchoolKids.Include(s => s.Group);
+            IQueryable<Subject> subjects = db.Subjects.Include(s => s.Group);
+
+            Subject subject = subjects.First(s=>s.Id == subjectId);
+            schoolKids = schoolKids.Where(s=>s.GroupId == subject.GroupId);
+
+            if (schoolKids == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.subjectId = subject.Id;
+            return View(schoolKids);
+        }
+
+        public ActionResult LoginPage()
+        {
+           
+            return View();
+        }
+
+        public ActionResult TeacherPage(int? teacher)
+        {
+            IQueryable<Subject> subjects = db.Subjects.Include(s => s.Teacher).Include(s => s.Group);
+            if (teacher != null && teacher != 0)
+            {
+                subjects = subjects.Where(s => s.TeacherId == teacher);
+            }
+
+            List<Teacher> teachers = db.Teachers.ToList();
+            // устанавливаем начальный элемент, который позволит выбрать всех
+            teachers.Insert(0, new Teacher { Name = "Все", Id = 0 });
+
+            SubjectListViewModel plvm = new SubjectListViewModel
+            {
+                Subjects = subjects.Include(s => s.Teacher).Include(s => s.Group).ToList(),
+                Teachers = new SelectList(teachers, "Id", "Name")
+            };
+            return View(plvm);
+        }
+
+        public ActionResult SchoolKidPage(int? schoolKid)
+        {
+            IQueryable<Grade> grades = db.Grades.Include(s => s.SchoolKid).Include(s => s.Subject);
+            if (schoolKid != null && schoolKid != 0)
+            {
+                grades = grades.Where(s => s.SchoolKidId == schoolKid);
+            }
+
+            List<SchoolKid> schoolKids = db.SchoolKids.ToList();
+            // устанавливаем начальный элемент, который позволит выбрать всех
+            schoolKids.Insert(0, new SchoolKid { Name = "Все", Id = 0 });
+
+            GradeListViewModel plvm = new GradeListViewModel
+            {
+                Grades = grades.ToList(),
+                SchoolKids = new SelectList(schoolKids, "Id", "Name")
+            };
+            return View(plvm);
+        }
+
+        public ActionResult ParentPage(int? parent)
+        {
+            IQueryable<Grade> grades = db.Grades.Include(s => s.SchoolKid).Include(s => s.Subject);
+            IQueryable<SchoolKid> schoolKids1 = db.SchoolKids.Include(s => s.Mother).Include(s => s.Father);
+            if (parent != null && parent != 0)
+            {
+                SchoolKid schoolKid = schoolKids1.First(s => s.MotherId == parent);
+                if (schoolKid == null) {
+                    schoolKid = schoolKids1.First(s => s.FatherId == parent);
+                }
+                grades = grades.Where(s => s.SchoolKidId == schoolKid.Id);
+            }
+
+            List<Parent> parents = db.Parents.ToList();
+            // устанавливаем начальный элемент, который позволит выбрать всех
+            parents.Insert(0, new Parent { Name = "Все", Id = 0 });
+
+            GradeListViewModel plvm = new GradeListViewModel
+            {
+                Grades = grades.Include(s => s.SchoolKid).Include(s => s.Subject).ToList(),
+                Parents = new SelectList(parents, "Id", "Name")
+            };
+            return View(plvm);
+        }
+        //
         /*
 
         [HttpPost]
@@ -129,6 +275,6 @@ namespace CourseProject.Controllers
             return "Name:," + gr.KidName + ", Subject:" + gr.SubjectName + ", Grade: " + gr.grade;
         }
         */
-       
+
     }
 }

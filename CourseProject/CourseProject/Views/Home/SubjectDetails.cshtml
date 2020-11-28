@@ -1,0 +1,45 @@
+﻿@model IEnumerable<CourseProject.Models.SchoolKid>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<h2>@ViewBag.subjectId</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Surname)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                <form action="/Home/PutGrade/" method="get">
+                    <input type="hidden" name="subjectId" value="@ViewBag.subjectId" />
+                    <input type="hidden" name="schoolKidId" value="@item.Id" />
+                    <button type="submit" class="btn-link" >Put Grade</button>
+                </form>
+                <form action="/Home/ShowGrades/" method="get">
+                    <input type="hidden" name="subjectId" value="@ViewBag.subjectId" />
+                    <input type="hidden" name="schoolKidId" value="@item.Id" />
+                    <button type="submit" class="btn-link">Show Grades</button>
+                </form>
+            </td>
+        </tr>
+    }
+
+</table>

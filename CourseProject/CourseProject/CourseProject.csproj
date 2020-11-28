@@ -127,6 +127,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\GradesController.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -145,7 +146,9 @@
       <DependentUpon>202011131851275_MigrateDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\SubjectListViewModel.cs" />
     <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\GradeListViewModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Grade.cs" />
     <Compile Include="Models\Group.cs" />
@@ -164,6 +167,7 @@
     <Content Include="App_Data\FirstDB_log.ldf">
       <DependentUpon>FirstDB.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\blog.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -195,7 +199,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LayoutMain.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -245,6 +249,15 @@
     <Content Include="Views\Grades\Edit.cshtml" />
     <Content Include="Views\Grades\Index.cshtml" />
     <Content Include="Views\SchoolKids\ListView.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Admin\LoginPage.cshtml" />
+    <Content Include="Views\Home\SchoolKidPage.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Home\ParentPage.cshtml" />
+    <Content Include="Views\Home\TeacherPage.cshtml" />
+    <Content Include="Views\Home\PutGrade.cshtml" />
+    <Content Include="Views\Home\SubjectDetails.cshtml" />
+    <Content Include="Views\Home\ShowGrades.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -264,6 +277,7 @@
       <DependentUpon>202011131851275_MigrateDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
