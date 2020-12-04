@@ -14,10 +14,24 @@ namespace CourseProject.Controllers
     public class GroupsController : Controller
     {
         private SchoolKidContext db = new SchoolKidContext();
-
+        public bool isAuthenticate()
+        {
+            if (Session["currentUser"] != null)
+            {
+                if (Session["role"] != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         // GET: Groups
         public  ActionResult Index()
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             var groups = db.Groups.Include(g => g.Adviser).Include(g => g.School);
             View(groups);
             return View( "Index");
@@ -26,6 +40,10 @@ namespace CourseProject.Controllers
         // GET: Groups/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -41,6 +59,10 @@ namespace CourseProject.Controllers
         // GET: Groups/Create
         public ActionResult Create()
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             ViewBag.AdviserId = new SelectList(db.Teachers, "Id", "Name");
             ViewBag.SchoolId = new SelectList(db.Schools, "Id", "Name");
             return View();
@@ -53,6 +75,10 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Name,SchoolId,AdviserId")] Group group)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (ModelState.IsValid)
             {
                 db.Groups.Add(group);
@@ -68,6 +94,10 @@ namespace CourseProject.Controllers
         // GET: Groups/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -89,6 +119,10 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Name,SchoolId,AdviserId")] Group group)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(group).State = EntityState.Modified;
@@ -103,6 +137,10 @@ namespace CourseProject.Controllers
         // GET: Groups/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -120,6 +158,10 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             Group group = await db.Groups.FindAsync(id);
             db.Groups.Remove(group);
             await db.SaveChangesAsync();

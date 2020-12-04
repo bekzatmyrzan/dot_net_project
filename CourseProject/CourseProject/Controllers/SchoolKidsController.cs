@@ -15,7 +15,31 @@ namespace CourseProject.Controllers
 {
     public class SchoolKidsController : Controller
     {
-        SchoolKidContext db = new SchoolKidContext();
+        SchoolKidContext db = new SchoolKidContext(); 
+        public bool isAuthenticate()
+        {
+            if (Session["currentUser"] != null)
+            {
+                if (Session["role"] != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool IsAdmin()
+        {
+            if (Session["role"] != null)
+            {
+                string role = (string)Session["role"];
+                if (role == "Admin")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private IRepository @object;
 
         public SchoolKidsController(IRepository @object)
@@ -30,6 +54,10 @@ namespace CourseProject.Controllers
         // GET: SchoolKids
         public ActionResult Index()
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             var schoolKids = db.SchoolKids.Include(s => s.Father).Include(s => s.Group).Include(s => s.Mother).Include(s => s.School);
             View(schoolKids);
             return View("Index");
@@ -38,6 +66,10 @@ namespace CourseProject.Controllers
         // GET: SchoolKids
         public ActionResult ListView(int? school, int? group)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             IQueryable<SchoolKid> schoolKids = db.SchoolKids.Include(s => s.Father).Include(s => s.Group).Include(s => s.Mother).Include(s => s.School);
             if (school != null && school != 0)
             {
@@ -60,12 +92,25 @@ namespace CourseProject.Controllers
                 Schools = new SelectList(schools, "Id", "Name"),
                 Groups = new SelectList(groups, "Id", "Name")
             };
+            /*if (this.Session["test"] != null)
+            {
+                ViewBag.testtest = this.Session["test"];
+            }*/
+
+            /*
+             <label>@{ if (ViewBag.testtest != null)
+                { <a>@ViewBag.testtest</a>} }</label>
+             */
             return View(plvm);
         }
 
         // GET: SchoolKids/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -81,6 +126,14 @@ namespace CourseProject.Controllers
         // GET: SchoolKids/Create
         public ActionResult Create()
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
+            if (!IsAdmin())
+            {
+                return Redirect("/Admin/LoginPage/?noPermission");
+            }
             ViewBag.FatherId = new SelectList(db.Parents, "Id", "Login");
             ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name");
             ViewBag.MotherId = new SelectList(db.Parents, "Id", "Login");
@@ -95,6 +148,14 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Login,Password,Name,Surname,MotherId,FatherId,SchoolId,GroupId")] SchoolKid schoolKid)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
+            if (!IsAdmin())
+            {
+                return Redirect("/Admin/LoginPage/?noPermission");
+            }
             if (ModelState.IsValid)
             {
                 db.SchoolKids.Add(schoolKid);
@@ -112,6 +173,14 @@ namespace CourseProject.Controllers
         // GET: SchoolKids/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
+            if (!IsAdmin())
+            {
+                return Redirect("/Admin/LoginPage/?noPermission");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -135,6 +204,14 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Login,Password,Name,Surname,MotherId,FatherId,SchoolId,GroupId")] SchoolKid schoolKid)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
+            if (!IsAdmin())
+            {
+                return Redirect("/Admin/LoginPage/?noPermission");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(schoolKid).State = EntityState.Modified;
@@ -151,6 +228,14 @@ namespace CourseProject.Controllers
         // GET: SchoolKids/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
+            if (!IsAdmin())
+            {
+                return Redirect("/Admin/LoginPage/?noPermission");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -168,6 +253,14 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
+            if (!IsAdmin())
+            {
+                return Redirect("/Admin/LoginPage/?noPermission");
+            }
             SchoolKid schoolKid = await db.SchoolKids.FindAsync(id);
             db.SchoolKids.Remove(schoolKid);
             await db.SaveChangesAsync();

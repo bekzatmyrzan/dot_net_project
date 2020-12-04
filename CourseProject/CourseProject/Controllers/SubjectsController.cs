@@ -14,10 +14,24 @@ namespace CourseProject.Controllers
     public class SubjectsController : Controller
     {
         private SchoolKidContext db = new SchoolKidContext();
-
+        public bool isAuthenticate()
+        {
+            if (Session["currentUser"] != null)
+            {
+                if (Session["role"] != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         // GET: Subjects
         public ActionResult Index()
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             var subjects = db.Subjects.Include(s => s.Group).Include(s => s.Teacher);
             View(subjects);
             return View("Index");
@@ -26,6 +40,10 @@ namespace CourseProject.Controllers
         // GET: Subjects/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -41,6 +59,10 @@ namespace CourseProject.Controllers
         // GET: Subjects/Create
         public ActionResult Create()
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name");
             ViewBag.TeacherId = new SelectList(db.Teachers, "Id", "PhoneNumber");
             return View();
@@ -53,6 +75,10 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Name,TeacherId,GroupId")] Subject subject)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (ModelState.IsValid)
             {
                 db.Subjects.Add(subject);
@@ -68,6 +94,10 @@ namespace CourseProject.Controllers
         // GET: Subjects/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -89,6 +119,10 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Name,TeacherId,GroupId")] Subject subject)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(subject).State = EntityState.Modified;
@@ -103,6 +137,10 @@ namespace CourseProject.Controllers
         // GET: Subjects/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -120,6 +158,10 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             Subject subject = await db.Subjects.FindAsync(id);
             db.Subjects.Remove(subject);
             await db.SaveChangesAsync();

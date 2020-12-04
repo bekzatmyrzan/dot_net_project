@@ -14,10 +14,24 @@ namespace CourseProject.Controllers
     public class GradesController : Controller
     {
         private SchoolKidContext db = new SchoolKidContext();
-
+        public bool isAuthenticate()
+        {
+            if (Session["currentUser"] != null)
+            {
+                if (Session["role"] != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         // GET: Grades
         public ActionResult Index()
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             var grades = db.Grades.Include(g => g.SchoolKid).Include(g => g.Subject);
             View(grades);
             return View("Index");
@@ -26,6 +40,10 @@ namespace CourseProject.Controllers
         // GET: Grades/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -41,6 +59,10 @@ namespace CourseProject.Controllers
         // GET: Grades/Create
         public ActionResult Create()
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             ViewBag.SchoolKidId = new SelectList(db.SchoolKids, "Id", "Name");
             ViewBag.SubjectId = new SelectList(db.Subjects, "Id", "Name");
             return View();
@@ -53,6 +75,10 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Value,SchoolKidId,SubjectId,Date")] Grade grade)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (ModelState.IsValid)
             {
                 db.Grades.Add(grade);
@@ -68,6 +94,10 @@ namespace CourseProject.Controllers
         // GET: Grades/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -89,6 +119,10 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Value,SchoolKidId,SubjectId,Date")] Grade grade)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(grade).State = EntityState.Modified;
@@ -103,6 +137,10 @@ namespace CourseProject.Controllers
         // GET: Grades/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -120,6 +158,10 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             Grade grade = await db.Grades.FindAsync(id);
             db.Grades.Remove(grade);
             await db.SaveChangesAsync();

@@ -14,15 +14,81 @@ namespace CourseProject.Controllers
     public class HomeController : Controller
     {
         SchoolKidContext db = new SchoolKidContext();
-
+        public bool isAuthenticate()
+        {
+            if (Session["currentUser"] != null)
+            {
+                if (Session["role"] != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool IsAdmin()
+        {
+            if (Session["role"] != null)
+            {
+                string role = (string)Session["role"];
+                if (role == "Admin")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool IsParent()
+        {
+            if (Session["role"] != null)
+            {
+                string role = (string)Session["role"];
+                if (role == "Parent")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool IsTeacher()
+        {
+            if (Session["role"] != null)
+            {
+                string role = (string)Session["role"];
+                if (role == "Teacher")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool IsSchoolKid()
+        {
+            if (Session["role"] != null)
+            {
+                string role = (string)Session["role"];
+                if (role == "SchoolKid")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public ActionResult Index()
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             View(db.Schools);
             return View("Index");
         }
 
         public ActionResult ShowGrades(int? subjectId, int? schoolKidId)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             IQueryable<SchoolKid> schoolKids = db.SchoolKids.Include(s => s.Group);
             IQueryable<Subject> subjects = db.Subjects.Include(s => s.Group);
 
@@ -43,6 +109,17 @@ namespace CourseProject.Controllers
 
         public ActionResult PutGrade(int? subjectId, int? schoolKidId)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
+            if (!IsAdmin())
+            {
+                if (!IsTeacher())
+                {
+                    return Redirect("/Admin/LoginPage/?noPermission");
+                }
+            }
             ViewBag.SchoolKidId = new SelectList(db.SchoolKids, "Id", "Name");
             ViewBag.SubjectId = new SelectList(db.Subjects, "Id", "Name");
 
@@ -61,6 +138,17 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> PutGrade([Bind(Include = "Id,Value,SchoolKidId,SubjectId,Date")] Grade grade)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
+            if (!IsAdmin())
+            {
+                if (!IsTeacher())
+                {
+                    return Redirect("/Admin/LoginPage/?noPermission");
+                }
+            }
             if (ModelState.IsValid)
             {
                 db.Grades.Add(grade);
@@ -75,6 +163,10 @@ namespace CourseProject.Controllers
         
         public async Task<ActionResult> SubjectDetails(int? subjectId)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (subjectId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -93,14 +185,19 @@ namespace CourseProject.Controllers
             return View(schoolKids);
         }
 
-        public ActionResult LoginPage()
-        {
-           
-            return View();
-        }
-
         public ActionResult TeacherPage(int? teacher)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
+            if (!IsAdmin())
+            {
+                if (!IsTeacher())
+                {
+                    return Redirect("/Admin/LoginPage/?noPermission");
+                }
+            }
             IQueryable<Subject> subjects = db.Subjects.Include(s => s.Teacher).Include(s => s.Group);
             if (teacher != null && teacher != 0)
             {
@@ -121,6 +218,10 @@ namespace CourseProject.Controllers
 
         public ActionResult SchoolKidPage(int? schoolKid)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             IQueryable<Grade> grades = db.Grades.Include(s => s.SchoolKid).Include(s => s.Subject);
             if (schoolKid != null && schoolKid != 0)
             {
@@ -141,6 +242,17 @@ namespace CourseProject.Controllers
 
         public ActionResult ParentPage(int? parent)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
+            if (!IsAdmin())
+            {
+                if (!IsParent())
+                {
+                    return Redirect("/Admin/LoginPage/?noPermission");
+                }
+            }
             IQueryable<Grade> grades = db.Grades.Include(s => s.SchoolKid).Include(s => s.Subject);
             IQueryable<SchoolKid> schoolKids1 = db.SchoolKids.Include(s => s.Mother).Include(s => s.Father);
             if (parent != null && parent != 0)

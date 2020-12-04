@@ -14,10 +14,25 @@ namespace CourseProject.Controllers
     public class ParentsController : Controller
     {
         SchoolKidContext db = new SchoolKidContext();
+        public bool isAuthenticate()
+        {
+            if (this.Session["currentUser"] != null)
+            {
+                if (this.Session["role"] != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         // GET: Parents
         public ActionResult Index()
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             View( db.Parents);
             return View("Index");
         }
@@ -25,6 +40,10 @@ namespace CourseProject.Controllers
         // GET: Parents/Details/5
         public async Task<ActionResult> Details(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -40,6 +59,10 @@ namespace CourseProject.Controllers
         // GET: Parents/Create
         public ActionResult Create()
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             return View();
         }
 
@@ -50,6 +73,10 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "Id,Login,Password,Name,Surname,PhoneNumber")] Parent parent)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (ModelState.IsValid)
             {
                 db.Parents.Add(parent);
@@ -63,6 +90,10 @@ namespace CourseProject.Controllers
         // GET: Parents/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -82,6 +113,10 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Login,Password,Name,Surname,PhoneNumber")] Parent parent)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (ModelState.IsValid)
             {
                 db.Entry(parent).State = EntityState.Modified;
@@ -94,6 +129,10 @@ namespace CourseProject.Controllers
         // GET: Parents/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -111,6 +150,10 @@ namespace CourseProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
             Parent parent = await db.Parents.FindAsync(id);
             db.Parents.Remove(parent);
             await db.SaveChangesAsync();
