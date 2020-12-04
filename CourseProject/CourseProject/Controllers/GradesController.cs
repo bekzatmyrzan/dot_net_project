@@ -16,10 +16,11 @@ namespace CourseProject.Controllers
         private SchoolKidContext db = new SchoolKidContext();
 
         // GET: Grades
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             var grades = db.Grades.Include(g => g.SchoolKid).Include(g => g.Subject);
-            return View(await grades.ToListAsync());
+            View(grades);
+            return View("Index");
         }
 
         // GET: Grades/Details/5

@@ -8,18 +8,31 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CourseProject.Models;
+using Nest;
+using CourseProject.Rep;
 
 namespace CourseProject.Controllers
 {
     public class SchoolKidsController : Controller
     {
-        private SchoolKidContext db = new SchoolKidContext();
+        SchoolKidContext db = new SchoolKidContext();
+        private IRepository @object;
+
+        public SchoolKidsController(IRepository @object)
+        {
+            this.@object = @object;
+        }
+
+        public SchoolKidsController()
+        {
+        }
 
         // GET: SchoolKids
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             var schoolKids = db.SchoolKids.Include(s => s.Father).Include(s => s.Group).Include(s => s.Mother).Include(s => s.School);
-            return View(await schoolKids.ToListAsync());
+            View(schoolKids);
+            return View("Index");
         }
 
         // GET: SchoolKids

@@ -13,12 +13,13 @@ namespace CourseProject.Controllers
 {
     public class ParentsController : Controller
     {
-        private SchoolKidContext db = new SchoolKidContext();
+        SchoolKidContext db = new SchoolKidContext();
 
         // GET: Parents
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await db.Parents.ToListAsync());
+            View( db.Parents);
+            return View("Index");
         }
 
         // GET: Parents/Details/5

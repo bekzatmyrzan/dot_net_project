@@ -16,9 +16,10 @@ namespace CourseProject.Controllers
         private SchoolKidContext db = new SchoolKidContext();
 
         // GET: Schools
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await db.Schools.ToListAsync());
+            View(db.Schools);
+            return View("Index");
         }
 
         // GET: Schools/Details/5

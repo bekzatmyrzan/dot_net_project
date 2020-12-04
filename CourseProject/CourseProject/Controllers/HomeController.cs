@@ -17,24 +17,8 @@ namespace CourseProject.Controllers
 
         public ActionResult Index()
         {
-            /*
-            IEnumerable<SchoolKid> schoolKids = db.SchoolKids;
-            IEnumerable<Grade> grades = db.Grades;
-            IEnumerable<Subject> subjects = db.Subjects;
-            IEnumerable<Teacher> teachers = db.Teachers;
-            IEnumerable<School> schools = db.Schools;
-            IEnumerable<Parent> parents = db.Parents;
-            IEnumerable<Group> groups = db.Groups;
-            ViewBag.SchoolKids = schoolKids;
-            ViewBag.Grades = grades;
-            ViewBag.Subjects = subjects;
-            ViewBag.Teachers = teachers;
-            ViewBag.Schools = schools;
-            ViewBag.Parents = parents;
-            ViewBag.Groups = groups;
-            */
-            // возвращаем представление
-            return View(db.Schools);
+            View(db.Schools);
+            return View("Index");
         }
 
         public ActionResult ShowGrades(int? subjectId, int? schoolKidId)

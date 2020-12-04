@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 
 namespace CourseProject.Models
 {
-    public class SchoolKidContext:DbContext
+    public class SchoolKidContext: DbContext
     {
         public DbSet<SchoolKid> SchoolKids { get; set; }
         public DbSet<Parent> Parents { get; set; }
