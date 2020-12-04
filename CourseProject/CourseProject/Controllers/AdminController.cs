@@ -68,7 +68,7 @@ namespace CourseProject.Controllers
                     {
                         Session["currentUser"] = inputEmail;
                         Session["role"] = "SchoolKid";
-                        return Redirect("/Home/SchoolKidPage/?SchoolKid=" + schoolKid.Id);
+                        return Redirect("/Home/SchoolKidPage");
                     }
                 }
             }
@@ -94,7 +94,7 @@ namespace CourseProject.Controllers
                     {
                         Session["currentUser"] = inputEmail;
                         Session["role"] = "Teacher";
-                        return Redirect("/Home/TeacherPage/?Teacher=" + teacher.Id);
+                        return Redirect("/Home/TeacherPage");
                     }
                 }
             }

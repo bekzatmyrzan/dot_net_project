@@ -2,16 +2,22 @@
 @{
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
+@if (Session["currentUser"] != null) {
+    if (Session["role"] != null) {
+        string role = (string)Session["role"];
+        if (role != "SchoolKid") { 
+            <form method="get" action="/Home/SchoolKidPage/">
+                <div class="form-inline">
+                    <label class="control-label">Ученик: </label>
+                    @Html.DropDownList("SchoolKid", Model.SchoolKids as SelectList,
+                            htmlAttributes: new { @class = "form-control" })
 
-<form method="get" action="/Home/SchoolKidPage/">
-    <div class="form-inline">
-        <label class="control-label">Ученик: </label>
-        @Html.DropDownList("SchoolKid", Model.SchoolKids as SelectList,
-                htmlAttributes: new { @class = "form-control" })
-
-        <input type="submit" value="Фильтр" class="btn btn-default" />
-    </div>
-</form>
+                    <input type="submit" value="Фильтр" class="btn btn-default" />
+                </div>
+            </form>
+        }
+    }
+}
 <br />
 <table class="table">
     <tr>

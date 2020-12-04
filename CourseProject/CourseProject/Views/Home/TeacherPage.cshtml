@@ -3,17 +3,25 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
+@if (Session["currentUser"] != null)
+{
+    if (Session["role"] != null)
+    {
+        string role = (string)Session["role"];
+        if (role == "Admin")
+        {
+            <form method="get" action="/Home/TeacherPage/">
+                <div class="form-inline">
+                    <label class="control-label">Teacher: </label>
+                    @Html.DropDownList("Teacher", Model.Teachers as SelectList,
+                            htmlAttributes: new { @class = "form-control" })
 
-<form method="get" action="/Home/TeacherPage/">
-    <div class="form-inline">
-        <label class="control-label">Teacher: </label>
-        @Html.DropDownList("Teacher", Model.Teachers as SelectList,
-                htmlAttributes: new { @class = "form-control" })
-
-        <input type="submit" value="Фильтр" class="btn btn-default" />
-    </div>
-</form>
-<br>
+                    <input type="submit" value="Фильтр" class="btn btn-default" />
+                </div>
+            </form>}
+    }
+}
+            <br>
             <table class="table">
                 <tr>
                     <th>
@@ -30,23 +38,23 @@
 
                 @foreach (var item in Model.Subjects)
                 {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Group.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Teacher.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <form action="/Home/SubjectDetails/" method="get">
-                        <input type="hidden" name="subjectId" value="@item.Id" />
-                        <button type="submit"  class="btn-link">Subject Details</button>
-                    </form>
-                </td>
-            </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Group.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Teacher.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            <form action="/Home/SubjectDetails/" method="get">
+                                <input type="hidden" name="subjectId" value="@item.Id" />
+                                <button type="submit" class="btn-link">Subject Details</button>
+                            </form>
+                        </td>
+                    </tr>
                 }
 
             </table>

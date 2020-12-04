@@ -201,12 +201,36 @@ namespace CourseProject.Controllers
             IQueryable<Subject> subjects = db.Subjects.Include(s => s.Teacher).Include(s => s.Group);
             if (teacher != null && teacher != 0)
             {
-                subjects = subjects.Where(s => s.TeacherId == teacher);
+                if (IsAdmin())
+                {
+                    subjects = subjects.Where(s => s.TeacherId == teacher);
+                }
+                else {
+                    return Redirect("/Admin/LoginPage/?noPermission");
+                }
+            }
+            else
+            {
+                IQueryable<Teacher> teachers0 = db.Teachers;
+                Teacher teacher1 = null;
+                string email = (string)Session["currentUser"];
+                foreach (Teacher t in teachers0)
+                {
+                    if (t.Login == email)
+                    {
+                        teacher1 = t;
+                        break;
+                    }
+                }
+                if (teacher1 != null)
+                {
+                    subjects = subjects.Where(s => s.TeacherId == teacher1.Id);
+                }
             }
 
             List<Teacher> teachers = db.Teachers.ToList();
             // устанавливаем начальный элемент, который позволит выбрать всех
-            teachers.Insert(0, new Teacher { Name = "Все", Id = 0 });
+            //teachers.Insert(0, new Teacher { Name = "Все", Id = 0 });
 
             SubjectListViewModel plvm = new SubjectListViewModel
             {
@@ -225,7 +249,31 @@ namespace CourseProject.Controllers
             IQueryable<Grade> grades = db.Grades.Include(s => s.SchoolKid).Include(s => s.Subject);
             if (schoolKid != null && schoolKid != 0)
             {
-                grades = grades.Where(s => s.SchoolKidId == schoolKid);
+                if (!IsSchoolKid())
+                {
+                    grades = grades.Where(s => s.SchoolKidId == schoolKid);
+                }
+                else {
+                    return Redirect("/Admin/LoginPage/?noPermission");
+                }
+            }
+            else
+            {
+                IQueryable<SchoolKid> schoolKids0 = db.SchoolKids;
+                SchoolKid schoolKid1 = null;
+                string email = (string)Session["currentUser"];
+                foreach (SchoolKid s in schoolKids0)
+                {
+                    if (s.Login == email)
+                    {
+                        schoolKid1 = s;
+                        break;
+                    }
+                }
+                if (schoolKid != null)
+                {
+                    grades = grades.Where(s => s.SchoolKidId == schoolKid1.Id);
+                }
             }
 
             List<SchoolKid> schoolKids = db.SchoolKids.ToList();
@@ -257,11 +305,41 @@ namespace CourseProject.Controllers
             IQueryable<SchoolKid> schoolKids1 = db.SchoolKids.Include(s => s.Mother).Include(s => s.Father);
             if (parent != null && parent != 0)
             {
-                SchoolKid schoolKid = schoolKids1.First(s => s.MotherId == parent);
-                if (schoolKid == null) {
-                    schoolKid = schoolKids1.First(s => s.FatherId == parent);
+                if (IsAdmin())
+                {
+                    SchoolKid schoolKid = schoolKids1.First(s => s.MotherId == parent);
+                    if (schoolKid == null)
+                    {
+                        schoolKid = schoolKids1.First(s => s.FatherId == parent);
+                    }
+                    grades = grades.Where(s => s.SchoolKidId == schoolKid.Id);
                 }
-                grades = grades.Where(s => s.SchoolKidId == schoolKid.Id);
+                else
+                {
+                    return Redirect("/Admin/LoginPage/?noPermission");
+                }
+            }
+            else {
+                IQueryable<Parent> parents1 = db.Parents;
+                Parent parent1 = null;
+                string email = (string)Session["currentUser"];
+                foreach (Parent p in parents1)
+                {
+                    if (p.Login == email)
+                    {
+                        parent1 = p;
+                        break;
+                    }
+                }
+                if (parent1 != null)
+                {
+                    SchoolKid schoolKid = schoolKids1.First(s => s.MotherId == parent1.Id);
+                    if (schoolKid == null)
+                    {
+                        schoolKid = schoolKids1.First(s => s.FatherId == parent1.Id);
+                    }
+                    grades = grades.Where(s => s.SchoolKidId == schoolKid.Id);
+                }
             }
 
             List<Parent> parents = db.Parents.ToList();
