@@ -81,7 +81,7 @@ namespace CourseProject.Controllers
                     {
                         Session["currentUser"] = inputEmail;
                         Session["role"] = "Parent";
-                        return Redirect("/Home/ParentPage/?Parent=" + parent.Id);
+                        return Redirect("/Home/ParentPage");
                     }
                 }
             }

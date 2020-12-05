@@ -5,7 +5,7 @@
 @if (Session["currentUser"] != null) {
     if (Session["role"] != null) {
         string role = (string)Session["role"];
-        if (role != "SchoolKid") { 
+        if (role != "SchoolKid" && role != "Parent") { 
             <form method="get" action="/Home/SchoolKidPage/">
                 <div class="form-inline">
                     <label class="control-label">Ученик: </label>

@@ -246,46 +246,60 @@ namespace CourseProject.Controllers
             {
                 return Redirect("/Admin/LoginPage/?error");
             }
-            IQueryable<Grade> grades = db.Grades.Include(s => s.SchoolKid).Include(s => s.Subject);
-            if (schoolKid != null && schoolKid != 0)
+            if (!IsParent())
             {
-                if (!IsSchoolKid())
+                IQueryable<Grade> grades = db.Grades.Include(s => s.SchoolKid).Include(s => s.Subject);
+                if (schoolKid != null && schoolKid != 0)
                 {
-                    grades = grades.Where(s => s.SchoolKidId == schoolKid);
-                }
-                else {
-                    return Redirect("/Admin/LoginPage/?noPermission");
-                }
-            }
-            else
-            {
-                IQueryable<SchoolKid> schoolKids0 = db.SchoolKids;
-                SchoolKid schoolKid1 = null;
-                string email = (string)Session["currentUser"];
-                foreach (SchoolKid s in schoolKids0)
-                {
-                    if (s.Login == email)
+                    if (!IsSchoolKid())
                     {
-                        schoolKid1 = s;
-                        break;
+                        if (!IsParent())
+                        {
+                            grades = grades.Where(s => s.SchoolKidId == schoolKid);
+                        }
+                        else
+                        {
+                            return Redirect("/Admin/LoginPage/?noPermission");
+                        }
+                    }
+                    else
+                    {
+                        return Redirect("/Admin/LoginPage/?noPermission");
                     }
                 }
-                if (schoolKid != null)
+                else
                 {
-                    grades = grades.Where(s => s.SchoolKidId == schoolKid1.Id);
+                    IQueryable<SchoolKid> schoolKids0 = db.SchoolKids;
+                    SchoolKid schoolKid1 = null;
+                    string email = (string)Session["currentUser"];
+                    foreach (SchoolKid s in schoolKids0)
+                    {
+                        if (s.Login == email)
+                        {
+                            schoolKid1 = s;
+                            break;
+                        }
+                    }
+                    if (schoolKid1 != null)
+                    {
+                        grades = grades.Where(s => s.SchoolKidId == schoolKid1.Id);
+                    }
                 }
+
+                List<SchoolKid> schoolKids = db.SchoolKids.ToList();
+                // устанавливаем начальный элемент, который позволит выбрать всех
+                schoolKids.Insert(0, new SchoolKid { Name = "Все", Id = 0 });
+
+                GradeListViewModel plvm = new GradeListViewModel
+                {
+                    Grades = grades.ToList(),
+                    SchoolKids = new SelectList(schoolKids, "Id", "Name")
+                };
+                return View(plvm);
             }
-
-            List<SchoolKid> schoolKids = db.SchoolKids.ToList();
-            // устанавливаем начальный элемент, который позволит выбрать всех
-            schoolKids.Insert(0, new SchoolKid { Name = "Все", Id = 0 });
-
-            GradeListViewModel plvm = new GradeListViewModel
-            {
-                Grades = grades.ToList(),
-                SchoolKids = new SelectList(schoolKids, "Id", "Name")
-            };
-            return View(plvm);
+            else {
+                return Redirect("/Admin/LoginPage/?noPermission");
+            }
         }
 
         public ActionResult ParentPage(int? parent)
