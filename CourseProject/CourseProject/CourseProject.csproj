@@ -165,12 +165,45 @@
     <Compile Include="Controllers\SubjectsController.cs" />
     <Compile Include="Controllers\TeachersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="CustomValidation\FirstClass.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202011131851275_MigrateDB.cs" />
     <Compile Include="Migrations\202011131851275_MigrateDB.designer.cs">
       <DependentUpon>202011131851275_MigrateDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012110623244_202012111223.cs" />
+    <Compile Include="Migrations\202012110623244_202012111223.designer.cs">
+      <DependentUpon>202012110623244_202012111223.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012110811131_1411de.cs" />
+    <Compile Include="Migrations\202012110811131_1411de.designer.cs">
+      <DependentUpon>202012110811131_1411de.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012110819588_1419da.cs" />
+    <Compile Include="Migrations\202012110819588_1419da.designer.cs">
+      <DependentUpon>202012110819588_1419da.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012110835543_1434te.cs" />
+    <Compile Include="Migrations\202012110835543_1434te.designer.cs">
+      <DependentUpon>202012110835543_1434te.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012110850158_1450de.cs" />
+    <Compile Include="Migrations\202012110850158_1450de.designer.cs">
+      <DependentUpon>202012110850158_1450de.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012110900283_1501de.cs" />
+    <Compile Include="Migrations\202012110900283_1501de.designer.cs">
+      <DependentUpon>202012110900283_1501de.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012110929078_1528de.cs" />
+    <Compile Include="Migrations\202012110929078_1528de.designer.cs">
+      <DependentUpon>202012110929078_1528de.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012111012032_1611de.cs" />
+    <Compile Include="Migrations\202012111012032_1611de.designer.cs">
+      <DependentUpon>202012111012032_1611de.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\SubjectListViewModel.cs" />
@@ -303,6 +336,30 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202011131851275_MigrateDB.resx">
       <DependentUpon>202011131851275_MigrateDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012110623244_202012111223.resx">
+      <DependentUpon>202012110623244_202012111223.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012110811131_1411de.resx">
+      <DependentUpon>202012110811131_1411de.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012110819588_1419da.resx">
+      <DependentUpon>202012110819588_1419da.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012110835543_1434te.resx">
+      <DependentUpon>202012110835543_1434te.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012110850158_1450de.resx">
+      <DependentUpon>202012110850158_1450de.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012110900283_1501de.resx">
+      <DependentUpon>202012110900283_1501de.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012110929078_1528de.resx">
+      <DependentUpon>202012110929078_1528de.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012111012032_1611de.resx">
+      <DependentUpon>202012111012032_1611de.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

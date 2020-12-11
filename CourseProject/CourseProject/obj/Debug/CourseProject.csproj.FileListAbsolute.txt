@@ -1,4 +1,3 @@
-C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.csprojAssemblyReference.cache
 C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations.MigrateDB.resources
 C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.csproj.GenerateResource.cache
 C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.csproj.CoreCompileInputs.cache
@@ -102,3 +101,12 @@ C:\Users\Bekzat\source\repos\CourseProject\CourseProject\bin\Nest.pdb
 C:\Users\Bekzat\source\repos\CourseProject\CourseProject\bin\Nest.xml
 C:\Users\Bekzat\source\repos\CourseProject\CourseProject\bin\System.Buffers.xml
 C:\Users\Bekzat\source\repos\CourseProject\CourseProject\bin\System.Diagnostics.DiagnosticSource.xml
+C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations._202012111223.resources
+C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations._1411de.resources
+C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations._1419da.resources
+C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations._1434te.resources
+C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations._1450de.resources
+C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations._1501de.resources
+C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations._1528de.resources
+C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.csprojAssemblyReference.cache
+C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations._1611de.resources

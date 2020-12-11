@@ -31,7 +31,7 @@ namespace CourseProject.Controllers
         {
             if (!isAuthenticate())
             {
-                return Redirect("/Admin/LoginPage/?error");
+                return Redirect("/admin/loginpage/?error");
             }
             View( db.Parents);
             return View("Index");

@@ -64,7 +64,7 @@ namespace CourseProject.Controllers
                 return Redirect("/Admin/LoginPage/?error");
             }
             ViewBag.GroupId = new SelectList(db.Groups, "Id", "Name");
-            ViewBag.TeacherId = new SelectList(db.Teachers, "Id", "PhoneNumber");
+            ViewBag.TeacherId = new SelectList(db.Teachers, "Id", "Name");
             return View();
         }
 
