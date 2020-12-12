@@ -125,12 +125,5 @@ namespace CourseProject.Controllers
             }
             base.Dispose(disposing);
         }
-
-        [HttpGet]
-        public JsonResult CheckName(string name)
-        {
-            var result = (name.Length > 3 ^ name == "name");
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
     }
 }

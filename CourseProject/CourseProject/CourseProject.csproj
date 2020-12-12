@@ -205,6 +205,10 @@
     <Compile Include="Migrations\202012111012032_1611de.designer.cs">
       <DependentUpon>202012111012032_1611de.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012120313491_0913te.cs" />
+    <Compile Include="Migrations\202012120313491_0913te.designer.cs">
+      <DependentUpon>202012120313491_0913te.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\SubjectListViewModel.cs" />
     <Compile Include="Models\Role.cs" />
@@ -360,6 +364,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012111012032_1611de.resx">
       <DependentUpon>202012111012032_1611de.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012120313491_0913te.resx">
+      <DependentUpon>202012120313491_0913te.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

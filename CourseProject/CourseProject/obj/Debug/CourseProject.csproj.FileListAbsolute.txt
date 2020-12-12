@@ -110,3 +110,4 @@ C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject
 C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations._1528de.resources
 C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.csprojAssemblyReference.cache
 C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations._1611de.resources
+C:\Users\Bekzat\source\repos\CourseProject\CourseProject\obj\Debug\CourseProject.Migrations._0913te.resources

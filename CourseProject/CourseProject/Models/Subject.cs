@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace CourseProject.Models
 {
     public class Subject
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "Write Name")]
+        [Remote("CheckName", "Subjects", ErrorMessage = "Name is not valid.")]
         public string Name { get; set; }
 
         public int? TeacherId { get; set; }
