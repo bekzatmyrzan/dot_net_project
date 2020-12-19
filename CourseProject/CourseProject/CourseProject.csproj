@@ -210,6 +210,7 @@
       <DependentUpon>202012120313491_0913te.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\gmail.cs" />
     <Compile Include="Models\SubjectListViewModel.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\GradeListViewModel.cs" />
@@ -323,6 +324,7 @@
     <Content Include="Views\Home\PutGrade.cshtml" />
     <Content Include="Views\Home\SubjectDetails.cshtml" />
     <Content Include="Views\Home\ShowGrades.cshtml" />
+    <Content Include="Views\Home\SendMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

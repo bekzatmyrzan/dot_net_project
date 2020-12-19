@@ -31,12 +31,17 @@
                 <form action="/Home/PutGrade/" method="get">
                     <input type="hidden" name="subjectId" value="@ViewBag.subjectId" />
                     <input type="hidden" name="schoolKidId" value="@item.Id" />
-                    <button type="submit" class="btn-link" >Put Grade</button>
+                    <button type="submit" class="btn-link">Put Grade</button>
                 </form>
                 <form action="/Home/ShowGrades/" method="get">
                     <input type="hidden" name="subjectId" value="@ViewBag.subjectId" />
                     <input type="hidden" name="schoolKidId" value="@item.Id" />
                     <button type="submit" class="btn-link">Show Grades</button>
+                </form>
+                <form action="/Home/MessagePage/" method="get">
+                    <input type="hidden" name="subjectId" value="@ViewBag.subjectId" />
+                    <input type="hidden" name="schoolKidId" value="@item.Id" />
+                    <button type="submit" class="btn-link">Send Message</button>
                 </form>
             </td>
         </tr>

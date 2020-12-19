@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace CourseProject.Controllers
@@ -73,6 +74,71 @@ namespace CourseProject.Controllers
             }
             return false;
         }
+
+        public ActionResult MessagePage(int? subjectId, int? schoolKidId)
+        {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
+            IQueryable<Parent> parents = db.Parents;
+            IQueryable<Subject> subjects = db.Subjects.Include(s => s.Group); 
+            IQueryable<SchoolKid> schoolKids = db.SchoolKids.Include(s => s.Group);
+
+            Subject subject = subjects.First(s => s.Id == subjectId);
+            SchoolKid schoolKid = schoolKids.First(s => s.Id == schoolKidId);
+
+
+            IQueryable<Grade> grades = db.Grades.Include(g => g.SchoolKid).Include(g => g.Subject);
+            grades = grades.Where(g => g.SchoolKidId == schoolKidId);
+            grades = grades.Where(g => g.SubjectId == subjectId);
+
+            ViewBag.subject = subject;
+            ViewBag.schoolKid = schoolKid;
+            return View("SendMessage");
+        }
+
+        [HttpPost, ActionName("SendMessage")]
+        [ValidateAntiForgeryToken]
+        public ActionResult SendMessage(gmail model, int? subjectId, int? schoolKidId)
+        {
+            if (!isAuthenticate())
+            {
+                return Redirect("/Admin/LoginPage/?error");
+            }
+            MailMessage mm = new MailMessage("kundelikcsharp@gmail.com", model.To);
+            mm.Subject = model.Subject;
+            mm.Body = model.Body;
+            mm.IsBodyHtml = false;
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.EnableSsl = true;
+            NetworkCredential networkCredential = new NetworkCredential("kundelikcsharp@gmail.com", "kundelik2020csharp");
+            smtp.UseDefaultCredentials = true;
+            smtp.Credentials = networkCredential;
+            smtp.Send(mm);
+
+            IQueryable<Parent> parents = db.Parents;
+            IQueryable<Subject> subjects = db.Subjects.Include(s => s.Group);
+            IQueryable<SchoolKid> schoolKids = db.SchoolKids.Include(s => s.Group);
+
+            Subject subject = subjects.First(s => s.Id == subjectId);
+            SchoolKid schoolKid = schoolKids.First(s => s.Id == schoolKidId);
+
+
+            IQueryable<Grade> grades = db.Grades.Include(g => g.SchoolKid).Include(g => g.Subject);
+            grades = grades.Where(g => g.SchoolKidId == schoolKidId);
+            grades = grades.Where(g => g.SubjectId == subjectId);
+
+            ViewBag.subject = subject;
+            ViewBag.schoolKid = schoolKid;
+            ViewBag.Message = "Mail Has Been Sent Succesfully!";
+
+
+            return View();
+        }
+
         public ActionResult Index()
         {
             if (!isAuthenticate())
